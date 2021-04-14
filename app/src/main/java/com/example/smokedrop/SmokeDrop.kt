@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.smokedrop.info.InfoFragment
 import com.example.smokedrop.map.MapFragment
+import com.example.smokedrop.settings.SettingsFragment
 import com.example.smokedrop.time.TimeFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -40,6 +41,13 @@ class SmokeDrop : AppCompatActivity() {
             }
             R.id.mapFragment -> {
                 val fragment = MapFragment()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment, fragment.javaClass.getSimpleName())
+                    .commit()
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.settingsFragment -> {
+                val fragment = SettingsFragment()
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, fragment, fragment.javaClass.getSimpleName())
                     .commit()
