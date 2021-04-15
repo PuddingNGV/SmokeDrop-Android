@@ -7,14 +7,14 @@
         android:icon="@drawable/timer_icon"/>
     <item
         android:id="@+id/infoFragment"
-        android:title="Info"
-        android:icon="@drawable/chart_icon"/>
+        android:title="Statistics"
+        android:icon="@drawable/statistics_icon"/>
     <item
         android:id="@+id/mapFragment"
-        android:title="map"
-        android:icon="@drawable/compass_icon"/>
+        android:title="Map"
+        android:icon="@drawable/map_icon"/>
     <item
         android:id="@+id/settingsFragment"
         android:title="Settings"
-        android:icon="@drawable/account_settings_icon"/>
+        android:icon="@drawable/person_icon"/>
 </menu>
