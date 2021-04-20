@@ -4,17 +4,17 @@
     <item
         android:id="@+id/timeFragment"
         android:title="Time"
-        android:icon="@drawable/timer_icon"/>
+        android:icon="@menu/timer_icon"/>
     <item
         android:id="@+id/infoFragment"
         android:title="Statistics"
-        android:icon="@drawable/statistics_icon"/>
+        android:icon="@menu/statistics_icon"/>
     <item
         android:id="@+id/mapFragment"
         android:title="Map"
-        android:icon="@drawable/map_icon"/>
+        android:icon="@menu/map_icon"/>
     <item
         android:id="@+id/settingsFragment"
         android:title="Settings"
-        android:icon="@drawable/person_icon"/>
+        android:icon="@menu/person_icon"/>
 </menu>
