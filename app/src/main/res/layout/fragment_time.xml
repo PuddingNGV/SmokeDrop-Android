@@ -5,9 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".time.TimeFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-
     <RelativeLayout
         android:id="@+id/info_field"
         android:layout_width="0dp"
@@ -132,6 +129,7 @@
             android:gravity="center"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
+            android:text=""
             android:textSize="36sp" />
 
         <TextView
@@ -160,6 +158,5 @@
             android:textSize="24sp" />
 
     </RelativeLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

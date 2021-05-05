@@ -1,5 +1,7 @@
 package com.example.smokedrop.settings
 
-class ViewModelSettings {
+import androidx.lifecycle.ViewModel
+
+class ViewModelSettings: ViewModel() {
 
 }

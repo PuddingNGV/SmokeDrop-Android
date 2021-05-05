@@ -3,6 +3,7 @@ package com.example.smokedrop
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.smokedrop.info.InfoFragment
 import com.example.smokedrop.map.MapFragment
 import com.example.smokedrop.settings.SettingsFragment

@@ -1,4 +1,6 @@
 package com.example.drops.map
 
-class ViewModelMap {
+import androidx.lifecycle.ViewModel
+
+class ViewModelMap: ViewModel() {
 }

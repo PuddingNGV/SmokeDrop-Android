@@ -6,9 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.smokedrop.R
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 
@@ -23,7 +22,10 @@ private val timeless = null
  * Use the [BlankFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+
+
 class TimeFragment : Fragment() {
+    private lateinit var viewModel: ViewModelTime
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -34,8 +36,8 @@ class TimeFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        viewModel = ViewModelProvider(this).get(ViewModelTime::class.java)
     }
-
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -44,20 +46,24 @@ class TimeFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_time, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val timeless = view!!.findViewById(R.id.textTime) as TextView
-        val timeles = view!!.findViewById(R.id.textTimeLast) as TextView
+    override fun onStart() {
+        super.onStart()
+        val textTime = requireView().findViewById(R.id.textTime) as TextView
+        val textTimeLast = requireView().findViewById(R.id.textTimeLast) as TextView
 
+        viewModel.timeNowLD.observe(viewLifecycleOwner, {
+            textTimeLast.text = it
+        })
 
-        var current = LocalDateTime.now().plusHours(1L)
-        val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
-        var formatted = current.format(formatter)
-        timeless.setText(formatted)
-
-        current= LocalDateTime.now()
-        formatted = current.format(formatter)
-        timeles.setText(formatted)
-
+        viewModel.timeNextLD.observe(viewLifecycleOwner, {
+            textTime.text = it
+        })
     }
+
 }
+
+
+
+
+
+

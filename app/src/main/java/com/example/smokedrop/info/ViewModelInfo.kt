@@ -1,4 +1,6 @@
 package com.example.drops.info
 
-class ViewModelInfo {
+import androidx.lifecycle.ViewModel
+
+class ViewModelInfo: ViewModel() {
 }
