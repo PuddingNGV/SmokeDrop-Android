@@ -24,7 +24,6 @@ class SmokeDrop : AppCompatActivity() {
             supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment, fragment.javaClass.getSimpleName())
                 .commit()
         }
-
     }
 
     private fun navigationItemSelectedListener() = BottomNavigationView.OnNavigationItemSelectedListener { menuItem ->
