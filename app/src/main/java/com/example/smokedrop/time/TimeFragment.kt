@@ -9,7 +9,6 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.smokedrop.R
 import com.example.smokedrop.databinding.FragmentTimeBinding
@@ -18,6 +17,7 @@ import com.example.smokedrop.databinding.FragmentTimeBinding
 class TimeFragment : Fragment() {
 
     private lateinit var binding: FragmentTimeBinding
+
     private lateinit var viewModel: ViewModelTime
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -49,10 +49,15 @@ class TimeFragment : Fragment() {
         val textTime = requireView().findViewById(R.id.textTime) as TextView
         val textTimeLast = requireView().findViewById(R.id.textTimeLast) as TextView
         val buttonStartTime = requireView().findViewById(R.id.circle_time) as RelativeLayout
-        val textSmokeCount = requireView().findViewById(R.id.textCountLeft) as TextView
-        viewModel.timeNowLD.observe(viewLifecycleOwner, {
+        val textSmokeCount = requireView().findViewById(R.id.textCountRemain) as TextView
+
+        viewModel.timeLast.observe(viewLifecycleOwner, {
             textTimeLast.text = it
         })
+        viewModel.timeLast.observe(viewLifecycleOwner, {
+            textTimeLast.text = it
+        })
+
 
     }
 
