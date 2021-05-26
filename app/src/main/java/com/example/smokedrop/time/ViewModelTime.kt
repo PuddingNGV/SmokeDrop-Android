@@ -10,27 +10,27 @@ import java.time.format.DateTimeFormatter
 
 class ViewModelTime: ViewModel() {
 
-    var _clickState = MutableLiveData<Boolean>()
+    private var _clickState = MutableLiveData<Boolean>()
     val clickState: LiveData<Boolean>
         get() = _clickState
 
-    var _smokeCountTotal = MutableLiveData<Int>()
+    private var _smokeCountTotal = MutableLiveData<Int>()
     val smokeCountTotal: LiveData<Int>
         get() = _smokeCountTotal
 
-    var _smokeCountToDay = MutableLiveData<Int>()
+    private var _smokeCountToDay = MutableLiveData<Int>()
     val smokeCountToDay:LiveData<Int>
         get() = _smokeCountToDay
 
-    var _timeLast = MutableLiveData<String>()
+    private var _timeLast = MutableLiveData<String>()
     val timeLast: LiveData<String>
         get() = _timeLast
 
-    var _timeNext = MutableLiveData<String>()
+    private var _timeNext = MutableLiveData<String>()
     val timeNext:LiveData<String>
         get()=_timeNext
 
-    var _smokeCountRemain = MutableLiveData<Int>()
+    private var _smokeCountRemain = MutableLiveData<Int>()
     val smokeCountRemain:LiveData<Int>
         get() = _smokeCountRemain
 
