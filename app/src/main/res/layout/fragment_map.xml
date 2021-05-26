@@ -7,12 +7,11 @@
     tools:context=".map.MapFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Map"
-        android:textSize="30dp"
-        android:textColor="@color/colorAccent"
+    <org.osmdroid.views.MapView
+        android:id="@+id/mapview"
+        tilesource="Mapnik"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
