@@ -8,13 +8,19 @@ import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import com.example.smokedrop.R
+import org.osmdroid.bonuspack.clustering.RadiusMarkerClusterer
 import org.osmdroid.config.Configuration.*
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
-import org.osmdroid.views.overlay.TilesOverlay
+import org.osmdroid.views.overlay.FolderOverlay
+import org.osmdroid.views.overlay.Marker
+import org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -46,6 +52,8 @@ class MapFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
+        // Find and start map parameters
         getInstance().load(activity, PreferenceManager.getDefaultSharedPreferences(activity))
         map = requireView().findViewById(R.id.mapview)
         map.setTileSource(TileSourceFactory.HIKEBIKEMAP)
@@ -55,7 +63,28 @@ class MapFragment : Fragment() {
         mapController.setZoom(16)
         val startPoint = GeoPoint(55.707772, 52.356435)
         mapController.setCenter(startPoint)
+
+
+
+
         map.overlayManager.tilesOverlay.setColorFilter(filterMaps())
+
+/*
+
+        // onClick callback
+        markerMaps().setOnClickListener {points, point ->
+            Toast.makeText(
+                map.context,
+                "You clicked " + (points[point] as LabelledGeoPoint).label,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+
+
+         */
+        markerMaps()
+
         map.onResume()
 
     }
@@ -69,7 +98,40 @@ class MapFragment : Fragment() {
 
 
 
+    private fun markerMaps() {
 
+        val startPoint = GeoPoint(55.707772, 52.356435)
+        val poiMarker = Marker(map)
+
+        val points = ArrayList<GeoPoint>()
+        for (i in 0..1000) {
+            points.add(
+                LabelledGeoPoint(
+                    55.70 + Math.random() * 5, 52.356435 + Math.random() * 5
+                )
+            )
+        }
+        val poiMarkers = RadiusMarkerClusterer(activity)
+        for (poi in points) {
+            val poiMarker = Marker(map)
+            poiMarker.title = "SUKA"
+            poiMarker.position = poi
+            poiMarker.icon = activity?.let { ContextCompat.getDrawable(it, R.drawable.location_pin) }
+            poiMarkers.add(poiMarker)
+        }
+        poiMarkers.setIcon(activity?.let { AppCompatResources.getDrawable(it, R.drawable.data_usage)?.toBitmap(100,100) })
+        poiMarkers.setRadius(500)
+
+        map.overlays.add(poiMarkers)
+
+        //poiMarkers.setIcon(activity?.let { AppCompatResources.getDrawable(it, R.drawable.marker_cluster)?.toBitmap() })
+
+        //startMarker.icon = activity?.let { ContextCompat.getDrawable(it, R.drawable.location_pin) }
+
+
+    }
+
+    // Applying a light filter to a Maps
     private fun filterMaps():ColorMatrixColorFilter {
         val inverseMatrix = ColorMatrix(
             floatArrayOf(
@@ -121,4 +183,5 @@ class MapFragment : Fragment() {
         scaleMatrix.preConcat(tintMatrix)
         return ColorMatrixColorFilter(scaleMatrix)
     }
+
 }
