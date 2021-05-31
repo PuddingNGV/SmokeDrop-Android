@@ -1,5 +1,6 @@
 package com.example.smokedrop.map
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
@@ -8,6 +9,9 @@ import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
@@ -18,9 +22,11 @@ import org.osmdroid.config.Configuration.*
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
-import org.osmdroid.views.overlay.FolderOverlay
 import org.osmdroid.views.overlay.Marker
+import org.osmdroid.views.overlay.infowindow.InfoWindow
 import org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -52,39 +58,24 @@ class MapFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-
         // Find and start map parameters
         getInstance().load(activity, PreferenceManager.getDefaultSharedPreferences(activity))
         map = requireView().findViewById(R.id.mapview)
         map.setTileSource(TileSourceFactory.HIKEBIKEMAP)
         map.setMultiTouchControls(true)
         val mapController = map.controller
-        //map.overlayManager.tilesOverlay.setColorFilter(TilesOverlay.INVERT_COLORS)
-        mapController.setZoom(16)
+
+        //Min Max zoom set
+        mapController.setZoom(15.0)
+
+        // GeoPoint Start LiveData convert
         val startPoint = GeoPoint(55.707772, 52.356435)
         mapController.setCenter(startPoint)
 
-
-
-
+        //setFilter mb livedata?
         map.overlayManager.tilesOverlay.setColorFilter(filterMaps())
 
-/*
-
-        // onClick callback
-        markerMaps().setOnClickListener {points, point ->
-            Toast.makeText(
-                map.context,
-                "You clicked " + (points[point] as LabelledGeoPoint).label,
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
-
-
-         */
         markerMaps()
-
         map.onResume()
 
     }
@@ -95,37 +86,61 @@ class MapFragment : Fragment() {
     }
 
 
-
-
-
     private fun markerMaps() {
 
-        val startPoint = GeoPoint(55.707772, 52.356435)
-        val poiMarker = Marker(map)
+        val pois = ArrayList<SmokePlace>()
+        val formatTime = DateTimeFormatter.ofPattern("yyyy.MM.dd" +"\n"+ "HH:mm:ss")
+        println("__________________________________________")
+        for (i in 0..1000) {
+            pois.add(SmokePlace(i.toLong(),
+                LabelledGeoPoint(55.70 + Math.random() * 0.1,
+                    52.356435 + Math.random() * 0.1),
+                LocalDateTime.now().format(formatTime)
+                )
+            )
+        }
+        println("__________________________________________")
+        println(pois.size)
+        println(pois[1])
+
+
+         /*
 
         val points = ArrayList<GeoPoint>()
         for (i in 0..1000) {
             points.add(
                 LabelledGeoPoint(
-                    55.70 + Math.random() * 5, 52.356435 + Math.random() * 5
+                    55.70 + Math.random() * 0.1, 52.356435 + Math.random() * 0.1
                 )
             )
         }
+        */
+
         val poiMarkers = RadiusMarkerClusterer(activity)
-        for (poi in points) {
+        for (poi in pois) {
             val poiMarker = Marker(map)
-            poiMarker.title = "SUKA"
-            poiMarker.position = poi
+            //
+            poiMarker.position = poi.mLocation
+            poiMarker.title = poi.mTime
             poiMarker.icon = activity?.let { ContextCompat.getDrawable(it, R.drawable.location_pin) }
             poiMarkers.add(poiMarker)
+            //poiMarker.setImage(activity?.let { ContextCompat.getDrawable(it, R.drawable.custom_bubble) })
+            poiMarker.infoWindow = MarkerInfoBubble(R.layout.bubble_maket, map)
+
         }
         poiMarkers.setIcon(activity?.let { AppCompatResources.getDrawable(it, R.drawable.data_usage)?.toBitmap(100,100) })
-        poiMarkers.setRadius(500)
+        poiMarkers.setRadius(300)
 
         map.overlays.add(poiMarkers)
 
-        //poiMarkers.setIcon(activity?.let { AppCompatResources.getDrawable(it, R.drawable.marker_cluster)?.toBitmap() })
 
+
+
+
+
+
+
+        //poiMarkers.setIcon(activity?.let { AppCompatResources.getDrawable(it, R.drawable.marker_cluster)?.toBitmap() })
         //startMarker.icon = activity?.let { ContextCompat.getDrawable(it, R.drawable.location_pin) }
 
 
