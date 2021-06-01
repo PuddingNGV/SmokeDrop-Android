@@ -63,7 +63,7 @@ class MapFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         // Find and start map parameters
-        getInstance().load(activity, PreferenceManager.getDefaultSharedPreferences(activity))
+        getInstance().load(activity, androidx.preference.PreferenceManager.getDefaultSharedPreferences(activity))
         map = requireView().findViewById(R.id.mapview)
         map.setTileSource(TileSourceFactory.HIKEBIKEMAP)
         map.setMultiTouchControls(true)
@@ -93,9 +93,7 @@ class MapFragment : Fragment() {
 
     private fun markerMaps(pois: ArrayList<SmokePlace>): RadiusMarkerClusterer {
         val poiMarkers = RadiusMarkerClusterer(activity)
-        println("I'm from FUNCTION")
         for (poi in pois) {
-            println("I'm from FOR")
             val poiMarker = Marker(map)
             poiMarker.position = poi.mLocation
             poiMarker.title = poi.mTime
@@ -105,7 +103,6 @@ class MapFragment : Fragment() {
         }
         poiMarkers.setIcon(activity?.let { AppCompatResources.getDrawable(it, R.drawable.data_usage)?.toBitmap(100,100) })
         poiMarkers.setRadius(300)
-        println("I'm RETURN")
         return poiMarkers
 }
 

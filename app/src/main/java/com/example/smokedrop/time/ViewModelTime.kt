@@ -1,14 +1,16 @@
 package com.example.smokedrop.time
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import android.location.Location
+import androidx.lifecycle.*
+import com.example.smokedrop.SmokeDrop
+import com.google.android.gms.location.LocationServices
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
 class ViewModelTime: ViewModel() {
+
+    //private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private var _clickState = MutableLiveData<Boolean>()
     val clickState: LiveData<Boolean>
@@ -88,6 +90,10 @@ class ViewModelTime: ViewModel() {
       _smokeCountTotal.value = _smokeCountTotal.value?.plus(1)
       _smokeCountToDay.value = _smokeCountToDay.value?.plus(1)
       _smokeCountRemain.value = _smokeCountRemain.value?.minus(1)
+      println(getLocationNow())
+    }
+
+    private fun getLocationNow() {
 
     }
 

@@ -27,7 +27,6 @@ class ViewModelMap: ViewModel() {
     private fun takeHistory() {
         //Connection Room Sim take old data
         val points = ArrayList<SmokePlace>()
-        println("__________________________________________")
         for (i in 0..1000) {
             points.add(SmokePlace(i.toLong(),
                 LabelledGeoPoint(55.70 + Math.random() * 0.1,
