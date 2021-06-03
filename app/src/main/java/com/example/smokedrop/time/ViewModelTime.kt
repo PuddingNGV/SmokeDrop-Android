@@ -1,16 +1,17 @@
 package com.example.smokedrop.time
 
+import android.annotation.SuppressLint
+import android.app.Application
 import android.location.Location
 import androidx.lifecycle.*
-import com.example.smokedrop.SmokeDrop
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
-class ViewModelTime: ViewModel() {
-
-    //private lateinit var fusedLocationClient: FusedLocationProviderClient
+class ViewModelTime(application: Application) : AndroidViewModel(application) {
 
     private var _clickState = MutableLiveData<Boolean>()
     val clickState: LiveData<Boolean>
@@ -35,6 +36,12 @@ class ViewModelTime: ViewModel() {
     private var _smokeCountRemain = MutableLiveData<Int>()
     val smokeCountRemain:LiveData<Int>
         get() = _smokeCountRemain
+
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    private var _location = MutableLiveData<Location>()
+    val location:LiveData<Location>
+        get() = _location
 
 
 
@@ -67,10 +74,10 @@ class ViewModelTime: ViewModel() {
         get() = _smokeCountRemain
 */
     init  {
-        takeHistory()
+        takeHistory(application)
     }
 
-    private fun takeHistory() {
+    private fun takeHistory(application: Application) {
         //Connection Room Sim take old data
         val time = LocalDateTime.now()
         _smokeCountTotal.value = 2050
@@ -78,6 +85,7 @@ class ViewModelTime: ViewModel() {
         _timeLast.value = timeMinus(time, hours = 3, minutes = 17)
         _timeNext.value = timePlus(time, hours = 1, minutes = 20)
         _smokeCountRemain.value = 10
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(application.applicationContext)
     }
 
 
@@ -90,11 +98,21 @@ class ViewModelTime: ViewModel() {
       _smokeCountTotal.value = _smokeCountTotal.value?.plus(1)
       _smokeCountToDay.value = _smokeCountToDay.value?.plus(1)
       _smokeCountRemain.value = _smokeCountRemain.value?.minus(1)
-      println(getLocationNow())
+      getLocationNow()
     }
 
+    @SuppressLint("MissingPermission")
     private fun getLocationNow() {
-
+        fusedLocationClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, null).addOnSuccessListener {location: Location? ->
+            if(location != null){
+                println(location.latitude.toString() + " " + location.longitude.toString())
+                _location.value = location
+                }
+            else{
+                println("LOCATION_DENIED")
+                println("LOCATION_DENIED")
+            }
+        }
     }
 
     private fun timePlus(time: LocalDateTime, day: Long = 0, hours: Long = 0, minutes:Long = 0):String {
